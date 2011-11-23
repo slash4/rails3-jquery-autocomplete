@@ -1,14 +1,17 @@
 #
 # Load the formtastic plugin if using Formtastic
+#
 begin
   require 'formtastic'
+  begin
+    require "formtastic/version"
+  rescue LoadError
+  end
 
-  if Formtastic.constants.include?(:VERSION)
-
+  if defined?(Formtastic::VERSION)
     #
-    # Formtastic 2.0
+    # Formtastic 2.x
     #
-
 
     module Formtastic
       module Inputs
