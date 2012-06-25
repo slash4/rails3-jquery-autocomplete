@@ -15,7 +15,7 @@ module Rails3JQueryAutocomplete
 
       def get_autocomplete_items(parameters)
         model          = parameters[:model]
-        method         = parameters[:method]
+        method         = Array(parameters[:method])
         options        = parameters[:options]
         is_full_search = options[:full]
         term           = parameters[:term]
@@ -27,7 +27,10 @@ module Rails3JQueryAutocomplete
         else
           search = '^' + term
         end
-        items  = model.where(method.to_sym => /#{search}/i).limit(limit).order_by(order)
+        for key in method
+          querry[key.to_sym] = /#{search}/i
+        end
+        items  = model.where(querry).limit(limit).order_by(order)
       end
     end
   end
