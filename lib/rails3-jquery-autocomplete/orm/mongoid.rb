@@ -9,7 +9,7 @@ module Rails3JQueryAutocomplete
             [sfields[0].downcase.to_sym, sfields[1].downcase.to_sym]
           end
         else
-          [[method.to_sym, :asc]]
+          [[method.first.to_sym, :asc]]
         end
       end
 
