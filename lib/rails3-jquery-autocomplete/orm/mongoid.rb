@@ -27,7 +27,7 @@ module Rails3JQueryAutocomplete
         else
           search = '^' + term
         end
-        querry = {}
+        querry = Hash.new
         for key in method
           querry[key.to_sym] = /#{search}/i
         end
