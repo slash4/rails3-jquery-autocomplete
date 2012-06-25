@@ -27,11 +27,13 @@ module Rails3JQueryAutocomplete
         else
           search = '^' + term
         end
-        querry = Hash.new
+        or_array = Array.new
         for key in method
-          querry[key.to_sym] = /#{search}/i
+          met = Hash.new
+          met[key.to_sym] = /#{search}/i
+          or_array << met
         end
-        items  = model.where(querry).limit(limit).order_by(order)
+        items  = model.any_of(or_array).limit(limit).order_by(order)
       end
     end
   end
