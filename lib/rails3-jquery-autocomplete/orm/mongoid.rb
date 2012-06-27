@@ -22,11 +22,6 @@ module Rails3JQueryAutocomplete
         limit          = get_autocomplete_limit(options)
         order          = get_autocomplete_order(method, options)
 
-        if is_full_search
-          search = '.*' + term + '.*'
-        else
-          search = '^' + term
-        end
         or_array = Array.new
         for key in method
           met = Hash.new
