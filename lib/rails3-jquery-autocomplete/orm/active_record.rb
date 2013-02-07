@@ -14,6 +14,7 @@ module Rails3JQueryAutocomplete
         method  = Array(parameters[:method])
         options = parameters[:options]
         scopes  = Array(options[:scopes])
+        where   = options[:where]
         limit   = get_autocomplete_limit(options)
         order   = get_autocomplete_order(method, options, model)
 
@@ -35,7 +36,7 @@ module Rails3JQueryAutocomplete
       def get_autocomplete_where_clause(model, term, method, options)
         table_name = model.table_name
         is_full_search = options[:full]
-        like_clause = (postgres? ? 'ILIKE' : 'LIKE')
+         like_clause = (postgres?(model) ? 'ILIKE' : 'LIKE')
         
         
         rep = [method.map{|m| "LOWER(#{table_name}.#{m}) #{like_clause} ? " }.join('or ')]
@@ -44,12 +45,11 @@ module Rails3JQueryAutocomplete
         }
         
         rep
-        
-        
       end
 
-      def postgres?
-        defined?(PGconn)
+      def postgres?(model)
+        # Figure out if this particular model uses the PostgreSQL adapter
+        model.connection.class.to_s.match(/PostgreSQLAdapter/)
       end
     end
   end

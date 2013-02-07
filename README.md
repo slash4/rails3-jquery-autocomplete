@@ -1,5 +1,7 @@
 # rails3-jquery-autocomplete
 
+[![Build Status](https://secure.travis-ci.org/crowdint/rails3-jquery-autocomplete.png)](http://travis-ci.org/crowdint/rails3-jquery-autocomplete)
+
 An easy way to use jQuery's autocomplete with Rails 3.
 
 Supports both ActiveRecord, [mongoid](http://github.com/mongoid/mongoid), and [MongoMapper](https://github.com/jnunemaker/mongomapper).
@@ -71,7 +73,7 @@ Just add it to your app/assets/javascripts/application.js file
 
     //= require jquery
     //= require jquery_ujs
-    //= require jquery_ui
+    //= require jquery-ui
     //= require autocomplete-rails
 
 ## Usage
@@ -195,6 +197,17 @@ If you are not using a FormBuilder (form_for) or you just want to include an aut
       autocomplete_field_tag 'address', '', address_autocomplete_path, :size => 75
     end
 
+#### Multiple Values Separated by Delimiter
+
+To generate an autocomplete input field that accepts multiple values separated by a given delimiter, add the `'data-delimiter'` and `:multiple` options:
+
+    form_for @product do |f|
+      f.autocomplete_field :brand_names, autocomplete_brand_name_products_path, 
+      'data-delimiter' => ',', :multiple => true
+    end
+
+NOTE: Setting the `:multiple` option to `true` will result in the chosen values being submitted as an array. Leaving this option off will result in the values being passed as a single string, with the values separated by your chosen delimiter.
+
 Now your autocomplete code is unobtrusive, Rails 3 style.
 
 ### Getting the object id
@@ -316,9 +329,17 @@ And then, install all your dependencies:
 
 ## Running the test suite
 
-You need to have an instance of MongoDB running on your computer or all the mongo tests will fail miserably.
+<strike>You need to have an instance of MongoDB running on your computer or all the mongo tests will fail miserably.</strike>
+
+To run all the tests once, simply use
 
     rake test
+
+while you're developing, it is recommended that you run
+
+    bundle exec guard
+
+to have the relevent test run every time you save a file.
 
 ## Integration tests
 
@@ -333,6 +354,17 @@ integration folder:
     cd integration
     rake db:migrate
     cucumber
+
+## Where to test what
+
+If you're making or tweaking a plugin (such as the formastic plugin or
+simple\_form plugin), check out the simple\_form\_plugin\_test for an
+example of how to test it as part of the main `rake test` run.
+Historically, plugins like these had been tested (shoddily) as part of
+the integration tests. Feel free to remove them from the integration
+suite and move them into the main suite. Your tests will run much
+faster, and there will be less likelihood of your feature breaking in
+the future. Thanks!
 
 # Thanks to
 
