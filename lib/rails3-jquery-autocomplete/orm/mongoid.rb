@@ -23,7 +23,7 @@ module Rails3JQueryAutocomplete
         order          = get_autocomplete_order(method, options)
 
         if is_full_search
-          search = '.*' + term + '.*'
+          search = '.*' + Regexp.escape(term) + '.*'
         else
           search = '^' + term
         end
