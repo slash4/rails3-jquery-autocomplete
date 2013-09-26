@@ -42,22 +42,28 @@ module Rails3JQueryAutocomplete
     #
     module ClassMethods
       def autocomplete(object, method, options = {})
-        define_method("autocomplete_#{object}_#{method.first}") do
+        begin
+          define_method("autocomplete_#{object}_#{method.first}") do
 
-          method = options[:column_name] if options.has_key?(:column_name)
+            method = options[:column_name] if options.has_key?(:column_name)
 
-          term = params[:term]
+            term = params[:term]
 
-          if term && !term.blank?
-            #allow specifying fully qualified class name for model object
-            class_name = options[:class_name] || object
-            items = get_autocomplete_items(:model => get_object(class_name), \
-              :options => options, :term => term, :method => method)
-          else
-            items = {}
+            if term && !term.blank?
+              #allow specifying fully qualified class name for model object
+              class_name = options[:class_name] || object
+              items = get_autocomplete_items(:model => get_object(class_name), \
+                :options => options, :term => term, :method => method)
+            else
+              items = {}
+            end
+
+            render :json => json_for_autocomplete(items, options[:display_value] ||= method.first, options[:extra_data])
           end
-
-          render :json => json_for_autocomplete(items, options[:display_value] ||= method.first, options[:extra_data])
+        rescue  Exception => e
+          puts "Rescue autocomplete"
+          puts e.message
+          puts e.backtrace       
         end
       end
     end
