@@ -49,7 +49,7 @@ module Rails3JQueryAutocomplete
             method = options[:column_name] if options.has_key?(:column_name)
 
             term = params[:term]
-            site_id = 3
+            site_id = sessions[:wop_cur_role].site.id
 
             if term && !term.blank?
               #allow specifying fully qualified class name for model object
