@@ -49,12 +49,13 @@ module Rails3JQueryAutocomplete
             method = options[:column_name] if options.has_key?(:column_name)
 
             term = params[:term]
+            site_id = 3
 
             if term && !term.blank?
               #allow specifying fully qualified class name for model object
               class_name = options[:class_name] || object
               items = get_autocomplete_items(:model => get_object(class_name), \
-                :options => options, :term => term, :method => method)
+                :options => options, :term => term, :method => method, :site_id => site_id)
             else
               items = {}
             end

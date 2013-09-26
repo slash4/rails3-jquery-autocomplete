@@ -16,6 +16,7 @@ module Rails3JQueryAutocomplete
         scopes  = Array(options[:scopes])
         limit   = get_autocomplete_limit(options)
         order   = get_autocomplete_order(method, options, model)
+        site_id = parameters[:site_id]
 
 
         items = model.scoped
@@ -25,6 +26,14 @@ module Rails3JQueryAutocomplete
         items = items.select(get_autocomplete_select_clause(model, method, options)) unless options[:full_model]
         items = items.where(get_autocomplete_where_clause(model, term, method, options)).
             limit(limit).order(order)
+        puts "model #{model}"
+        if model = "WopEngine::Person"
+          puts "model person"
+          items = items.joins("join wop_roles on wop_roles.person_id=wop_people.id").where("wop_roles.site_id = ?", site_id) unless site_id.nil?
+        else
+          puts "else"
+          items = items.where("#{model.table_name}.site_id = ?", site_id) unless site_id.nil?
+        end
       end
 
       def get_autocomplete_select_clause(model, method, options)
