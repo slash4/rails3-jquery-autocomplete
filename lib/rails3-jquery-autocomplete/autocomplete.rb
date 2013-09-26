@@ -42,6 +42,7 @@ module Rails3JQueryAutocomplete
     #
     module ClassMethods
       def autocomplete(object, method, options = {})
+        puts "autocomplete"
         begin
           define_method("autocomplete_#{object}_#{method.first}") do
 
@@ -70,6 +71,7 @@ module Rails3JQueryAutocomplete
 
     # Returns a limit that will be used on the query
     def get_autocomplete_limit(options)
+      puts "get_autocomplete_limit"
       options[:limit] ||= 10
     end
 
@@ -79,6 +81,7 @@ module Rails3JQueryAutocomplete
     #   # returns a Actor constant supposing it is already defined
     #
     def get_object(model_sym)
+      puts "get_object"
       object = model_sym.to_s.camelize.constantize
     end
 
@@ -88,6 +91,7 @@ module Rails3JQueryAutocomplete
     # Hash also includes a key/value pair for each method in extra_data
     #
     def json_for_autocomplete(items, method, extra_data=[])
+      puts "json_for_autocomplete"
       items.collect do |item|
         hash = {"id" => item.id.to_s, "label" => item.send(method), "value" => item.send(method)}
         extra_data.each do |datum|
