@@ -25,7 +25,7 @@ module Rails3JQueryAutocomplete
         if is_full_search
           search = '.*' + Regexp.escape(term) + '.*'
         else
-          search = '^' + term
+          search = '^' + Regexp.escape(term)
         end
         
         or_array = Array.new
