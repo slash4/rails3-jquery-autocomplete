@@ -1,4 +1,50 @@
+## Status
+
+As you may have noticed we are working through the backlog of issues and pull requests
+and trying to get those caught up.  Couple of quick notes related to this.
+
+1. A new gem with Rails 4 support HAS BEEN recently RELEASED (1.0.12).
+2. If there is a specific feature that is in master, but not in the gem I strongly suggest you
+   point to the specific changeset that addresses your issue rather than directly at master. There
+   are going to be a lot of changes going on here and while we will do our best; there will probably
+   be some breakage on master in the short term.  Use at your discretion!
+3. Some pull requests have been submitted to address the same functionality; in those cases we will try
+   to pick the best/optimal solution, accept that and close out the other tickets.
+4. Backwards compatibility is considered a high priority, so if a pull request is a great idea,
+   but it breaks backwards compatibility, it will be closed and noted that it causes breakage 
+   to backwards compatibility.  If anyone passionately wants the feature they are welcome to update 
+   in a way that maintiains backwards compatibility and issue new pull reqs.
+5. Performance is critical.  If a feature is a nice to have, but has been implemented in such a way that it causes
+   performance degradation to existing searches; it will be rejected.
+6. Thanks to everyone who is submitting pull requests, issues, comments, etc... I appreciate the help
+   from each one of you.  Sometimes it has to get worse before it gets better.  But I promise,
+   it will get better!
+
+-------
+
+Thanks to David @ crowdint for creating this gem and all of his hard
+work on it in the past.
+
+Just posting this update to let everyone know this project is still
+alive and has a new maintainer.  Over the next couple of weeks we will
+be reviewing existing pull requests and you will see updates shortly.
+
+Thanks for your patience.
+
+joiey-seeley@uiowa.edu
+
+-------
+
+Unfortunately, I don't have much time to work on this gem, I'm looking for
+someone to help with its maintenance. Send me an email if you are interested in
+getting push privileges to this repo.
+
+david@crowdint.com
+
+
 # rails3-jquery-autocomplete
+
+[![Build Status](https://secure.travis-ci.org/crowdint/rails3-jquery-autocomplete.png)](http://travis-ci.org/crowdint/rails3-jquery-autocomplete) [![Gem Version](https://badge.fury.io/rb/rails3-jquery-autocomplete.png)](http://badge.fury.io/rb/rails3-jquery-autocomplete)
 
 An easy way to use jQuery's autocomplete with Rails 3.
 
@@ -65,13 +111,13 @@ uncompressed version by running:
 
     rails generate autocomplete:uncompressed
 
-### Rails 3.1.x
+### Rails 3.1.x and higher
 
 Just add it to your app/assets/javascripts/application.js file
 
     //= require jquery
     //= require jquery_ujs
-    //= require jquery_ui
+    //= require jquery-ui
     //= require autocomplete-rails
 
 ## Usage
@@ -195,6 +241,17 @@ If you are not using a FormBuilder (form_for) or you just want to include an aut
       autocomplete_field_tag 'address', '', address_autocomplete_path, :size => 75
     end
 
+#### Multiple Values Separated by Delimiter
+
+To generate an autocomplete input field that accepts multiple values separated by a given delimiter, add the `'data-delimiter'` and `:multiple` options:
+
+    form_for @product do |f|
+      f.autocomplete_field :brand_names, autocomplete_brand_name_products_path,
+      'data-delimiter' => ',', :multiple => true
+    end
+
+NOTE: Setting the `:multiple` option to `true` will result in the chosen values being submitted as an array. Leaving this option off will result in the values being passed as a single string, with the values separated by your chosen delimiter.
+
 Now your autocomplete code is unobtrusive, Rails 3 style.
 
 ### Getting the object id
@@ -316,9 +373,17 @@ And then, install all your dependencies:
 
 ## Running the test suite
 
-You need to have an instance of MongoDB running on your computer or all the mongo tests will fail miserably.
+<strike>You need to have an instance of MongoDB running on your computer or all the mongo tests will fail miserably.</strike>
+
+To run all the tests once, simply use
 
     rake test
+
+while you're developing, it is recommended that you run
+
+    bundle exec guard
+
+to have the relevant test run every time you save a file.
 
 ## Integration tests
 
@@ -333,6 +398,17 @@ integration folder:
     cd integration
     rake db:migrate
     cucumber
+
+## Where to test what
+
+If you're making or tweaking a plugin (such as the formtastic plugin or
+simple\_form plugin), check out the simple\_form\_plugin\_test for an
+example of how to test it as part of the main `rake test` run.
+Historically, plugins like these had been tested (shoddily) as part of
+the integration tests. Feel free to remove them from the integration
+suite and move them into the main suite. Your tests will run much
+faster, and there will be less likelihood of your feature breaking in
+the future. Thanks!
 
 # Thanks to
 
